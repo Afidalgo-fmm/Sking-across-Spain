@@ -84,7 +84,7 @@ def app():
     else:
         otro = [1,2,3,4,5]        
     perro = nino[nino['Dog Friendly'].isin(otro)]
-
+                                                                                                                                                                                                                                                                                                                              
     st.write("""
     ## Primeras sugerencias:
     """)

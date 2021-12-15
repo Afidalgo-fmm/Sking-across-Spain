@@ -1,3 +1,5 @@
 /.ipynb_checkpoints
 /selenium
 .env
+/src.__pychache__
+.maria.py
