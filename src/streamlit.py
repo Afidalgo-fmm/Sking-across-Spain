@@ -1,6 +1,11 @@
 import pandas as pd
 import numpy  as np
 from src import cargar_datos as dat
+import folium
+from folium import Choropleth, Circle, Marker, Icon, Map
+from folium.plugins import HeatMap, MarkerCluster
+import pandas as pd
+
 
 nivel_novato = [] # sin negras y muy pocas rojas
 nivel_principiante = [] # principalmente que sean verdes y azules
@@ -64,4 +69,31 @@ def convinetor(nivel,snow,familia):
         resfam = sinfam
     res = [value for value in resnivel if value in ressnow]
     resultado = [value for value in resfam if value in res]
-    return f'Estas son las estaciones que te recomiendo {resultado}'
+    newdata = pd.DataFrame()
+
+    for i, row in my_data.iterrows():
+        if my_data.estacion[i] in resultado:
+            newdata = newdata.append(row, ignore_index=True)
+    #realdata = newdata[newdata['estacion','Estado_nieve','n_pistas', 'remontes','precio_adultos €', 'KM totales']]
+    return newdata
+
+def mapita (data_conv):
+    inicial_lat = 40.463667
+    inicial_long = -3.74922
+    esp_map = folium.Map(location=[inicial_lat,inicial_long], zoom_start=6, tiles = 'Stamen Terrain')
+    descripcion = []
+    for i,row in data_conv.iterrows():
+    #print([float(row.lat),float(row.long)])
+    #print(row.estacion)
+        marker1 = folium.Marker(location=[float(row.lat),float(row.long)], tooltip= row.estacion, icon=folium.Icon(icon='glyphicon glyphicon-asterisk'))
+        marker1.add_to(esp_map)
+    return esp_map
+def mostrar(data_conv):
+    resultado = pd.DataFrame()
+    for i, row in data_conv.iterrows():
+        pistas = int(row.n_pistas)
+        estacion = row.estacion
+        nieve = row.Estado_nieve
+        remontes = int(row.remontes)
+    resultado = resultado.append([estacion, pistas,remontes,nieve])
+    return resultado

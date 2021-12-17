@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from src.cargar_datos import *
 from src.streamlit import *
+from data import *
+from streamlit_folium import folium_static
 
 st.write('''
 # Skiing:
@@ -10,10 +12,9 @@ st.write('''
 data = cargardatos()
 restdata = cargarrestaurantes()
 estaciones = data['estacion']
-input_nivel = ['elige','novato','principiante', 'medio', 'experto']
-'''
+#map = pd.read_json('data/kepler.gl.json')
 
-'''
+input_nivel = ['elige','novato','principiante', 'medio', 'experto']
 nivel = st.selectbox('Cual es tu nivel de skii: ', input_nivel)
 if nivel == 'elige':
     st.stop()
@@ -31,8 +32,9 @@ if fam == 'elige':
 
 
 respuesta = convinetor(nivel,snow,fam)
-respuesta_final = []
-for i in estaciones:
-    if i in respuesta:
-        respuesta_final.append(i)
-print(respuesta_final)
+#print(respuesta)
+#mapita(respuesta)
+folium_static(mapita(respuesta))
+respuesta
+#detalles = mostrar(respuesta)
+#detalles
